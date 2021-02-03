@@ -1,0 +1,35 @@
+{
+  "name": "coldboot",
+  "version": "1.0.0",
+  "description": "A lightweight vanillaJs script to connect server-rendered static HTML to client-rendered application",
+  "main": "coldboot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "terser coldboot.js -c -m -o dist/coldboot.min.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/testbook/coldboot.js.git"
+  },
+  "keywords": [
+    "coldboot",
+    "server",
+    "side",
+    "rendering",
+    "angular",
+    "universal",
+    "client",
+    "side",
+    "persist",
+    "loader"
+  ],
+  "author": "Prashant Mohta",
+  "license": "Unlicense",
+  "bugs": {
+    "url": "https://github.com/testbook/coldboot.js/issues"
+  },
+  "homepage": "https://github.com/testbook/coldboot.js#readme",
+  "devDependencies": {
+    "terser": "^5.5.1"
+  }
+}

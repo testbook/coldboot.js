@@ -8,6 +8,7 @@ A lightweight vanillaJs script to connect server-rendered static HTML to client-
 //todo see if user 'focus' needs to be preserved
 
 # Usage 
+
 //todo npm install
 
 load the coldboot.js script in your page 
@@ -24,9 +25,10 @@ in markup , we can now add attributes `cb-await='loader text'` & `cb-await-id='l
 
 add the attribute `cb-persist='uniqueIdentifier'` to add a listener that will listen to 'input' events & store the value property of the element. 
 
-once client application is finished loading, it must call `coldboot.complete()`. doing this wil detach event listeners, hide the loader, update values for client rendered `cb-persist` based on their uniqueIdentifiers.
+once client application is finished loading, it must call `coldboot.complete()`.
+doing this wil detach event listeners, hide the loader, update values for client rendered `cb-persist` based on their unique identifiers.
 
-`coldboot.complete()` will also return an object with the map of all persisted identifier to values in the `preserve` key & the id providedi in `cb-await-id` in the `awaitId` key to indicate which element was clicked.
+`coldboot.complete()` will also return an object with the map of all persisted-identifier to value in the `preserve` key & the id provided in `cb-await-id` in the `awaitId` key to indicate which element was clicked.
 
 if an interaction is observed, then the object will have the following form 
 ```javascript
@@ -43,6 +45,4 @@ awaitId : undefined,
 preserve: {}
 }
 ``` 
-
-//todo add additional key here to let the client know about the element that invoked loader, if any.
 

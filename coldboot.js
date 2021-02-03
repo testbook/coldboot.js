@@ -1,22 +1,24 @@
 window.coldboot = (function(){
     var prefix='cb';
     var loader=`${prefix}-await`;
+    var loaderId=`${loader}-id`;
     var preserve=`${prefix}-persist`;
 
-    var loaderId = `${loader}-loader`
+    var loaderContainerId = `${loader}-loader`
     var textContainerId = `${loader}-text`;
 
     var preserveMap = {};
+    var awaitId = undefined;
 
     function showAwait(str){
-        var loaderEle = document.getElementById(loaderId);
+        var loaderEle = document.getElementById(loaderContainerId);
         loaderEle.style.display = 'block';
         var textEle = document.getElementById(textContainerId);
         textEle.innerText = str;
     }
 
     function hideAwait(){
-        var loaderEle = document.getElementById(loaderId);
+        var loaderEle = document.getElementById(loaderContainerId);
         loaderEle.style.display = 'none';
     }
 
@@ -30,17 +32,17 @@ window.coldboot = (function(){
 
     function awaitListener(event){
         var target = event.target;
-        var toAwait = target.getAttributeNames().indexOf(loader) >= 0;
-        if(toAwait){
+        var attr = target.getAttributeNames();
+        if(attr.indexOf(loader) >= 0 && attr.indexOf(loaderId) >= 0){
             var awaitAttr = target.getAttribute(loader);
+            awaitId = target.getAttribute(loaderId);
             showAwait(awaitAttr || 'Loading')
         }
     }
 
     function preserveListener(event) {
         var target = event.target;
-        var toPreserve = target.getAttributeNames().indexOf(preserve) >= 0;
-        if(toPreserve){
+        if(target.getAttributeNames().indexOf(preserve) >= 0){
             var preserveAttr = target.getAttribute(preserve);
             addToPreserveMap(preserveAttr,target.value)
         }
@@ -55,7 +57,7 @@ window.coldboot = (function(){
 
     function init(customLoaderId,customTextContainerId){
         if(customLoaderId){
-            loaderId = customLoaderId;
+            loaderContainerId = customLoaderId;
         }
         if(customTextContainerId){
             textContainerId = customTextContainerId;
@@ -69,7 +71,7 @@ window.coldboot = (function(){
         document.removeEventListener('click',awaitListener);
         document.removeEventListener('input',preserveListener);
         injectPreservedValue();
-        return preserveMap;
+        return {preserve:preserveMap,awaitId:awaitId};
     }
 
     return {

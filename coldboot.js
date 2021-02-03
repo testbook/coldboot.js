@@ -30,10 +30,23 @@ window.coldboot = (function(){
         return preserveMap[key] || "";
     }
 
-    function awaitListener(event){
-        var target = event.target;
+    function isAwaitTarget(target){
         var attr = target.getAttributeNames();
         if(attr.indexOf(loader) >= 0 && attr.indexOf(loaderId) >= 0){
+            return true;
+        }
+        var elements =  document.querySelectorAll(`[${loader}]`)
+        for(var i=0;i < elements.length;i++){
+            if(elements[i].contains(target)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function awaitListener(event){
+        var target = event.target;
+        if(isAwaitTarget(target)){
             var awaitAttr = target.getAttribute(loader);
             awaitId = target.getAttribute(loaderId);
             showAwait(awaitAttr || 'Loading')

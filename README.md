@@ -9,7 +9,9 @@ A lightweight vanillaJs script to connect server-rendered static HTML to client-
 
 # Usage 
 
-//todo npm install
+install the package using npm
+
+``` npm install coldboot ``` 
 
 load the coldboot.js script in your page 
 

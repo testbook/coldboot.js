@@ -62,10 +62,18 @@ window.coldboot = (function(){
         }
     }
 
+    function fireEvent(target,eventName){
+        var event = new Event(eventName, {bubbles: true,cancelable: false,});
+        target.dispatchEvent(event);
+    }
+
     function injectPreservedValue(){
         document.querySelectorAll(`[${preserve}]`).forEach(function(target){
             var preserveAttr = target.getAttribute(preserve);
             target.value = getFromPreserveMap(preserveAttr);
+            ['focus','input','change','keypress','keydown','keyup','blur'].forEach(function(event){
+                fireEvent(target,event);
+            })
         })
     }
 

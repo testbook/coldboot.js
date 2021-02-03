@@ -33,22 +33,23 @@ window.coldboot = (function(){
     function isAwaitTarget(target){
         var attr = target.getAttributeNames();
         if(attr.indexOf(loader) >= 0 && attr.indexOf(loaderId) >= 0){
-            return true;
+            return {isAwait:true,target:target};
         }
         var elements =  document.querySelectorAll(`[${loader}]`)
         for(var i=0;i < elements.length;i++){
             if(elements[i].contains(target)){
-                return true;
+                return {isAwait:true,target:elements[i]};
             }
         }
-        return false;
+        return {isAwait:false};
     }
 
     function awaitListener(event){
         var target = event.target;
-        if(isAwaitTarget(target)){
-            var awaitAttr = target.getAttribute(loader);
-            awaitId = target.getAttribute(loaderId);
+        var element = isAwaitTarget(target)
+        if(element.isAwait){
+            var awaitAttr = element.target.getAttribute(loader);
+            awaitId = element.target.getAttribute(loaderId);
             showAwait(awaitAttr || 'Loading')
         }
     }

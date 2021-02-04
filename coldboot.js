@@ -70,10 +70,13 @@ window.coldboot = (function(){
     function injectPreservedValue(){
         document.querySelectorAll(`[${preserve}]`).forEach(function(target){
             var preserveAttr = target.getAttribute(preserve);
-            target.value = getFromPreserveMap(preserveAttr);
-            ['focus','input','change','keypress','keydown','keyup','blur'].forEach(function(event){
-                fireEvent(target,event);
-            })
+            var val = getFromPreserveMap(preserveAttr);
+            if(val !== ""){
+                target.value = val;
+                ['focus','input','change','keypress','keydown','keyup','blur'].forEach(function(event){
+                    fireEvent(target,event);
+                })
+            }
         })
     }
 

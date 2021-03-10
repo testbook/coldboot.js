@@ -10,6 +10,10 @@ window.coldboot = (function(){
     var preserveMap = {};
     var awaitId = undefined;
 
+    var resolve = undefined;
+    var reject = undefined;
+    var promise = undefined;
+
     function showAwait(str){
         var loaderEle = document.getElementById(loaderContainerId);
         loaderEle.style.display = 'block';
@@ -32,7 +36,7 @@ window.coldboot = (function(){
 
     function isAwaitTarget(target){
         var attr = target.getAttributeNames();
-        if(attr.indexOf(loader) >= 0 && attr.indexOf(loaderId) >= 0){
+        if(attr.indexOf(loader) >= 0 || attr.indexOf(loaderId) >= 0){
             return {isAwait:true,target:target};
         }
         var elements =  document.querySelectorAll(`[${loader}]`)
@@ -96,11 +100,31 @@ window.coldboot = (function(){
         document.removeEventListener('click',awaitListener);
         document.removeEventListener('input',preserveListener);
         injectPreservedValue();
+
+        if(awaitId && resolve) {
+            resolve(awaitId);
+        }
+        else {
+            reject && reject();
+        }
+        
         return {preserve:preserveMap,awaitId:awaitId};
     }
 
+    function getPromise() {
+        if(!promise) {
+            promise = new Promise((res, rej) => {
+                resolve = res;
+                reject = rej;
+            }); 
+        }
+        return promise;
+    }
+
+
     return {
         init : init,
-        complete : complete
+        complete : complete,
+        onComplete: getPromise()
     }
 })();

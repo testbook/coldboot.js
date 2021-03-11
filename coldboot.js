@@ -36,7 +36,7 @@ window.coldboot = (function(){
 
     function isAwaitTarget(target){
         var attr = target.getAttributeNames();
-        if(attr.indexOf(loader) >= 0 || attr.indexOf(loaderId) >= 0){
+        if(attr.indexOf(loader) >= 0 && attr.indexOf(loaderId) >= 0){
             return {isAwait:true,target:target};
         }
         var elements =  document.querySelectorAll(`[${loader}]`)
@@ -102,10 +102,7 @@ window.coldboot = (function(){
         injectPreservedValue();
 
         if(awaitId && resolve) {
-            resolve(awaitId);
-        }
-        else {
-            reject && reject();
+            resolve({preserve:preserveMap,awaitId:awaitId});
         }
         
         return {preserve:preserveMap,awaitId:awaitId};
@@ -113,7 +110,7 @@ window.coldboot = (function(){
 
     function getPromise() {
         if(!promise) {
-            promise = new Promise((res, rej) => {
+            promise = new Promise(function(res, rej) {
                 resolve = res;
                 reject = rej;
             }); 

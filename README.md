@@ -48,3 +48,12 @@ preserve: {}
 }
 ``` 
 
+Optionally you can also subscribe to `coldboot.onComplete().then(fn)` if you want to listen to complete on multiple places. When a valid element is present, it resolves with value -
+```javascript
+{
+awaitId:'submit',
+preserve: { email:'donjoe@example.com'}
+}
+```
+
+coldboot.onComplete is resolved after coldboot.complete() is called.

@@ -10,6 +10,10 @@ window.coldboot = (function(){
     var preserveMap = {};
     var awaitId = undefined;
 
+    var resolve = undefined;
+    var reject = undefined;
+    var promise = undefined;
+
     function showAwait(str){
         var loaderEle = document.getElementById(loaderContainerId);
         loaderEle.style.display = 'block';
@@ -96,11 +100,28 @@ window.coldboot = (function(){
         document.removeEventListener('click',awaitListener);
         document.removeEventListener('input',preserveListener);
         injectPreservedValue();
+
+        if(awaitId && resolve) {
+            resolve({preserve:preserveMap,awaitId:awaitId});
+        }
+        
         return {preserve:preserveMap,awaitId:awaitId};
     }
 
+    function getPromise() {
+        if(!promise) {
+            promise = new Promise(function(res, rej) {
+                resolve = res;
+                reject = rej;
+            }); 
+        }
+        return promise;
+    }
+
+
     return {
         init : init,
-        complete : complete
+        complete : complete,
+        onComplete: getPromise()
     }
 })();

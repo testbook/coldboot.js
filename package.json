@@ -1,6 +1,6 @@
 {
   "name": "coldboot",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "A lightweight vanillaJs script to connect server-rendered static HTML to client-rendered application",
   "main": "coldboot.js",
   "scripts": {

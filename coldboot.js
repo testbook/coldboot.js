@@ -2,6 +2,7 @@ window.coldboot = (function(){
     var prefix='cb';
     var loader=`${prefix}-await`;
     var loaderId=`${loader}-id`;
+    var routerId = `${prefix}-route`;
     var preserve=`${prefix}-persist`;
 
     var loaderContainerId = `${loader}-loader`
@@ -48,6 +49,20 @@ window.coldboot = (function(){
         return {isAwait:false};
     }
 
+    function isRouteTarget(target){
+        var attr = target.getAttributeNames();
+        if(attr.indexOf(routerId) >= 0){
+            return {isRoute:true,target:target};
+        }
+        var elements =  document.querySelectorAll(`[${routerId}]`)
+        for(var i=0;i < elements.length;i++){
+            if(elements[i].contains(target)){
+                return {isRoute:true,target:elements[i]};
+            }
+        }
+        return {isRoute:false};
+    }
+
     function awaitListener(event){
         var target = event.target;
         var element = isAwaitTarget(target)
@@ -55,6 +70,15 @@ window.coldboot = (function(){
             var awaitAttr = element.target.getAttribute(loader);
             awaitId = element.target.getAttribute(loaderId);
             showAwait(awaitAttr || 'Loading')
+        }
+    }
+
+    function routeListener(event){
+        var target = event.target;
+        var element = isRouteTarget(target)
+        if(element.isRoute){
+            var route = element.target.getAttribute(routerId);
+            window.location.href = route;
         }
     }
 
@@ -91,13 +115,18 @@ window.coldboot = (function(){
         if(customTextContainerId){
             textContainerId = customTextContainerId;
         }
-        document.addEventListener('click',awaitListener);
+        document.addEventListener('click',clickEventHandler);
         document.addEventListener('input',preserveListener);
+    }
+
+    function clickEventHandler(event) {
+        awaitListener(event);
+        routeListener(event);
     }
 
     function complete(){
         hideAwait();
-        document.removeEventListener('click',awaitListener);
+        document.removeEventListener('click',clickEventHandler);
         document.removeEventListener('input',preserveListener);
         injectPreservedValue();
 

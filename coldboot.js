@@ -2,7 +2,7 @@ window.coldboot = (function(){
     var prefix='cb';
     var loader=`${prefix}-await`;
     var loaderId=`${loader}-id`;
-    var routerId = `${prefix}-route`;
+    var route = `${prefix}-route`;
     var preserve=`${prefix}-persist`;
 
     var loaderContainerId = `${loader}-loader`
@@ -51,10 +51,10 @@ window.coldboot = (function(){
 
     function isRouteTarget(target){
         var attr = target.getAttributeNames();
-        if(attr.indexOf(routerId) >= 0){
+        if(attr.indexOf(route) >= 0){
             return {isRoute:true,target:target};
         }
-        var elements =  document.querySelectorAll(`[${routerId}]`)
+        var elements =  document.querySelectorAll(`[${route}]`)
         for(var i=0;i < elements.length;i++){
             if(elements[i].contains(target)){
                 return {isRoute:true,target:elements[i]};
@@ -77,7 +77,7 @@ window.coldboot = (function(){
         var target = event.target;
         var element = isRouteTarget(target)
         if(element.isRoute){
-            var route = element.target.getAttribute(routerId);
+            var route = element.target.getAttribute(route);
             window.location.href = route;
         }
     }

@@ -77,8 +77,7 @@ window.coldboot = (function(){
         var target = event.target;
         var element = isRouteTarget(target)
         if(element.isRoute){
-            var route = element.target.getAttribute(route);
-            window.location.href = route;
+            window.location.href = element.target.getAttribute(route);
         }
     }
 

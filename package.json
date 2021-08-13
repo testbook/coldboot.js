@@ -30,6 +30,6 @@
   },
   "homepage": "https://github.com/testbook/coldboot.js#readme",
   "devDependencies": {
-    "terser": "^5.5.1"
+    "terser": "5.5.1"
   }
 }

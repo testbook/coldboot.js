@@ -1,6 +1,6 @@
 {
   "name": "coldboot",
-  "version": "1.2.4",
+  "version": "1.3.0",
   "description": "A lightweight vanillaJs script to connect server-rendered static HTML to client-rendered application",
   "main": "coldboot.js",
   "scripts": {
@@ -30,6 +30,6 @@
   },
   "homepage": "https://github.com/testbook/coldboot.js#readme",
   "devDependencies": {
-    "terser": "^5.5.1"
+    "terser": "5.5.1"
   }
 }

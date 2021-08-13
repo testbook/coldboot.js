@@ -1,14 +1,16 @@
-window.coldboot = (function(){
+window.coldboot = window.coldboot || (function(){
     var prefix='cb';
     var loader=`${prefix}-await`;
     var loaderId=`${loader}-id`;
     var preserve=`${prefix}-persist`;
+    var loaderParam=`${loader}-param`;
 
     var loaderContainerId = `${loader}-loader`
     var textContainerId = `${loader}-text`;
 
     var preserveMap = {};
     var awaitId = undefined;
+    var awaitParam =undefined;
 
     var resolve = undefined;
     var reject = undefined;
@@ -54,6 +56,7 @@ window.coldboot = (function(){
         if(element.isAwait){
             var awaitAttr = element.target.getAttribute(loader);
             awaitId = element.target.getAttribute(loaderId);
+            awaitParam = element.target.getAttribute(loaderParam);
             showAwait(awaitAttr || 'Loading')
         }
     }
@@ -102,10 +105,10 @@ window.coldboot = (function(){
         injectPreservedValue();
 
         if(awaitId && resolve) {
-            resolve({preserve:preserveMap,awaitId:awaitId});
+            resolve({preserve:preserveMap,awaitId:awaitId,awaitParam:awaitParam});
         }
         
-        return {preserve:preserveMap,awaitId:awaitId};
+        return {preserve:preserveMap,awaitId:awaitId,awaitParam:awaitParam};
     }
 
     function getPromise() {
